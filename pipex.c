@@ -1,6 +1,7 @@
 #include "pipex.h"
 // add error checking to split
 void	struct_free(char **arr);
+void	args_free(char **arr);
 // *
 //  0 = stdin        0 = stdin
 //  1 = stdout  -->  1 = fd[1]
@@ -11,6 +12,8 @@ void	struct_free(char **arr);
 
 // cc pipex.c ft_split.c ft_strjoin.c ft_strlen.c ft_substr.c pipex_utils.c ft_split_p.c
 // ./a.out file.txt "ls -l" "grep" fileout.txt
+
+
 
 int	main(int argc, char *argv[], char *env[])
 {
@@ -94,7 +97,7 @@ int	main(int argc, char *argv[], char *env[])
 	close(fd[1]);
 	waitpid(pid1, NULL, 0);
 	waitpid(pid2, NULL, 0);
-	
+
 	struct_free(pdata.paths);
 	pdata.paths = NULL;
 	struct_free(pdata.cmd_path1);
@@ -105,9 +108,10 @@ int	main(int argc, char *argv[], char *env[])
 	// pdata.path1 = NULL;
 	// free(pdata.path2);
 	// pdata.path2 = NULL;
-	struct_free(pdata.args1);
+
+	args_free(pdata.args1);
 	pdata.args1 = NULL;
-	struct_free(pdata.args2);
+	args_free(pdata.args2);
 	pdata.args2 = NULL;
 	close(file);
 	close(fileout);
@@ -120,6 +124,22 @@ void	struct_free(char **arr)
 	if (*arr)
 	{
 		i = 0;
+		while (arr[i])
+		{
+			free(arr[i]);
+			i++;
+		}
+		free(arr);
+	}
+}
+
+void	args_free(char **arr)
+{
+	int	i;
+
+	if (*arr)
+	{
+		i = 1;
 		while (arr[i])
 		{
 			free(arr[i]);
