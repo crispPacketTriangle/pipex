@@ -8,9 +8,12 @@
 #include <errno.h>
 #include <string.h>
 #include <sys/wait.h>
+#include "libft/libft.h"
 
 typedef struct s_args
 {
+	int		filein;
+	int		fileout;
 	char	**args1;
 	char	**args2;
 	char	**files;
@@ -21,14 +24,11 @@ typedef struct s_args
 	char	*path2;
 }				arg;
 
+int		io_access(char *argv[]);
 void	get_path(arg *pdata, char *env[]);
 int		get_valid_path(arg *pdata);
-char	**ft_split(const char *str, char c);
 char	**ft_split_p(const char *str, char c);
-char	*ft_substr(const char *s, unsigned int st, size_t len);
-char	*ft_strjoin(const char *s1, const char *s2);
-size_t	ft_strlen(const char *str);
 void	parse_cmds(arg *pdata, char *argv[]);
-void	arg_init(arg *pdata, char *argv[], char *env[]);
+int		arg_init(arg *pdata, char *argv[], char *env[]);
 
 #endif
