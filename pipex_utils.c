@@ -3,8 +3,6 @@
 
 void	parse_cmds(arg *pdata, char *argv[])
 {
-	pdata->args1 = malloc(sizeof(char*));
-	pdata->args1[0] = " ";
 	if (ft_strlen(argv[2]) > 0)
 		pdata->args1 = ft_split(argv[2], ' ');
 	else
@@ -18,6 +16,17 @@ void	parse_cmds(arg *pdata, char *argv[])
 	{
 		pdata->args2 = malloc(sizeof(char*));
 		pdata->args2[0] = " ";
+	}
+	int i;
+	i = 0;
+	while (pdata->args1[i]){
+		printf("args1: %s\n", pdata->args1[i]);
+		i++;
+	}
+	i = 0;
+	while (pdata->args2[i]){
+		printf("args2: %s\n", pdata->args2[i]);
+		i++;
 	}
 }
 

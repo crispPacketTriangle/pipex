@@ -38,6 +38,17 @@ int	main(int argc, char *argv[], char *env[])
 		return (err);
 	}
 
+	int i;
+	i = 0;
+	while (pdata.args1[i]){
+		printf("args1: %s\n", pdata.args1[i]);
+		i++;
+	}
+	i = 0;
+	while (pdata.args2[i]){
+		printf("args2: %s\n", pdata.args2[i]);
+		i++;
+	}
 	// pdata.args1 = NULL;
 	// pdata.args2 = NULL;
 	// int	i;
@@ -102,6 +113,18 @@ int	main(int argc, char *argv[], char *env[])
 	waitpid(pid1, NULL, 0);
 	waitpid(pid2, NULL, 0);
 
+	// int i;
+	// i = 0;
+	// while (pdata.args1[i]){
+	// 	printf("args1: %s\n", pdata.cmd_path1[i]);
+	// 	i++;
+	// }
+	// i = 0;
+	// while (pdata.args2[i]){
+	// 	printf("args2: %s\n", pdata.cmd_path2[i]);
+	// 	i++;
+	// }
+
 	struct_free(pdata.paths);
 	pdata.paths = NULL;
 	struct_free(pdata.cmd_path1);
@@ -114,6 +137,9 @@ int	main(int argc, char *argv[], char *env[])
 	pdata.args2 = NULL;
 	close(pdata.filein);
 	close(pdata.fileout);
+
+
+
 	return (0);
 }
 
