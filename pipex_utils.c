@@ -1,32 +1,21 @@
 
 #include "pipex.h"
 
+// try passing the path in a diffent variable not as arg1[0]
 void	parse_cmds(arg *pdata, char *argv[])
 {
 	if (ft_strlen(argv[2]) > 0)
-		pdata->args1 = ft_split(argv[2], ' ');
-	else
 	{
-		pdata->args1 = malloc(sizeof(char*));
-		pdata->args1[0] = " ";
+		pdata->args1 = ft_split(argv[2], '\'');
+		pdata->args1 = ft_split(argv[2], ' ');
+		if (pdata->args1[1])
+			pdata->args1[1] = ft_strtrim(pdata->args1[1], "\'\"");
 	}
 	if (ft_strlen(argv[3]) > 0)
-		pdata->args2 = ft_split(argv[3], ' ');
-	else
 	{
-		pdata->args2 = malloc(sizeof(char*));
-		pdata->args2[0] = " ";
-	}
-	int i;
-	i = 0;
-	while (pdata->args1[i]){
-		printf("args1: %s\n", pdata->args1[i]);
-		i++;
-	}
-	i = 0;
-	while (pdata->args2[i]){
-		printf("args2: %s\n", pdata->args2[i]);
-		i++;
+		pdata->args2 = ft_split(argv[3], ' ');
+		if (pdata->args2[1])
+			pdata->args2[1] = ft_strtrim(pdata->args2[1], "\'\"");
 	}
 }
 
@@ -124,7 +113,7 @@ int	arg_init(arg *pdata, char *argv[], char *env[])
 	int	err;
 	// populates args1/args2 with commands and arguments
 	parse_cmds(pdata, argv);
-	// get_path populates pdata.paths with paths in PATH
+	//get_path populates pdata.paths with paths in PATH
 	get_path(pdata, env);
 	// get_cmd_path populates pdata.cmd_path with possible paths to commands
 	get_cmd_path(pdata);
@@ -136,3 +125,6 @@ int	arg_init(arg *pdata, char *argv[], char *env[])
 	add_valid_path(pdata);
 	return (0);
 }
+
+
+// IF IT EXISTS AS A PATH BUT IS NOT A COMMAND

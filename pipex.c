@@ -15,27 +15,27 @@ void	args_free(char **arr);
 
 int	main(int argc, char *argv[], char *env[])
 {
-	char	*p;	
-	p = getenv("PATH");
-	if (argc != 5)
-		return (1);
-
 	int 	fd[2];
 	int		err;
-	arg pdata;
-	err = arg_init(&pdata, argv, env);
+	arg 	pdata;
+
+	if (args_false(argc, argv))
+		return (1);
+	pdata.args1 = NULL;
+	pdata.args2 = NULL;
 	//printf("path err: %d\n", err);
-	if (err < 0)
+	err = io_access(&pdata, argv);
+	if (err != 0)
 	{
-		//perror("ERROR opening file.");
-		return (err);	
-	}
-	err = io_access(argv);
-	//printf("file err: %d\n", err);
-	if (err < 0)
-	{
-		//perror("ERROR opening file.");
+		perror("ERROR opening file");
 		return (err);
+	}
+	err = arg_init(&pdata, argv, env);
+	//printf("file err: %d\n", err);
+	if (err != 0)
+	{
+		perror("ERROR executing binary");
+		return (err);	
 	}
 
 	int i;
@@ -49,8 +49,7 @@ int	main(int argc, char *argv[], char *env[])
 		printf("args2: %s\n", pdata.args2[i]);
 		i++;
 	}
-	// pdata.args1 = NULL;
-	// pdata.args2 = NULL;
+	
 	// int	i;
 	// i = 0;
 	// while (pdata.cmd_path1[i]){
@@ -63,8 +62,8 @@ int	main(int argc, char *argv[], char *env[])
 	// 	i++;
 	// }
 
-	pdata.filein = open(argv[1], O_RDONLY);
-	pdata.fileout = open(argv[4], O_WRONLY);
+	//pdata.filein = open(argv[1], O_RDONLY);
+	//pdata.fileout = open(argv[4], O_WRONLY | O_CREAT, 0644);
 	dup2(pdata.filein, STDIN_FILENO);
 
 	// create pipe by populating fd
@@ -87,8 +86,7 @@ int	main(int argc, char *argv[], char *env[])
 		close(fd[1]); // closing duplicated version -- need some clarification on this
 		// execute ls -l command
 		//if (pdata.args1)
-		execve(pdata.args1[0], pdata.args1, NULL);
-		//execve(args[0], args, NULL);
+		execve(pdata.args1[0], pdata.args1, env);
 	}
 	int pid2 = fork();
 	if (pid2 < 0) {
@@ -103,8 +101,7 @@ int	main(int argc, char *argv[], char *env[])
 		close(fd[0]);
 		close(fd[1]);
 		//if (pdata.args2)
-		execve(pdata.args2[0], pdata.args2, NULL);
-		//execve(args2[0], args2, NULL);
+		execve(pdata.args2[0], pdata.args2, env);
 	}
 	// grep will continue to wait for input until all open file descriptors
 	// are closed so we must close the open fd and any fds not in use
@@ -131,10 +128,10 @@ int	main(int argc, char *argv[], char *env[])
 	pdata.cmd_path1 = NULL;
 	struct_free(pdata.cmd_path2);
 	pdata.cmd_path2 = NULL;
-	args_free(pdata.args1);
-	pdata.args1 = NULL;
-	args_free(pdata.args2);
-	pdata.args2 = NULL;
+	// args_free(pdata.args1);
+	// pdata.args1 = NULL;
+	// args_free(pdata.args2);
+	// pdata.args2 = NULL;
 	close(pdata.filein);
 	close(pdata.fileout);
 
@@ -175,13 +172,28 @@ void	args_free(char **arr)
 	}
 }
 // separate out checks and return errors
-int	io_access(char *argv[])
+int	io_access(arg *pdata, char *argv[])
 {
-	int	n;
+	mode_t	c_umask = umask(0);
+	mode_t	perm;
+	int		n;
 
+	umask(c_umask);
+	perm = (S_IRUSR | S_IWUSR | S_IRGRP | S_IWGRP | S_IROTH | S_IWOTH) & ~c_umask;
 	if (access(argv[1], F_OK | R_OK) == -1)
 		return (errno);
-	if (access(argv[4], F_OK | W_OK) == -1)
+	pdata->fileout = open(argv[4], O_WRONLY | O_CREAT | O_TRUNC, perm);
+	if (access(argv[4], W_OK) == -1)
 		return (errno);
+	pdata->filein = open(argv[1], O_RDONLY);
+	return (0);
+}
+
+int	args_false(int argc, char *argv[])
+{
+	if (argc != 5)
+		return (1);
+	if (ft_strlen(argv[1]) == 0 || ft_strlen(argv[3]) == 0)
+		return (1);
 	return (0);
 }

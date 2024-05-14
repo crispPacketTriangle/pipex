@@ -7,6 +7,8 @@
 #include <stdlib.h>
 #include <errno.h>
 #include <string.h>
+#include <sys/stat.h>
+#include <sys/types.h>
 #include <sys/wait.h>
 #include "libft/libft.h"
 
@@ -24,7 +26,8 @@ typedef struct s_args
 	char	*path2;
 }				arg;
 
-int		io_access(char *argv[]);
+int		args_false(int argc, char *argv[]);
+int		io_access(arg *pdata, char *argv[]);
 void	get_path(arg *pdata, char *env[]);
 int		get_valid_path(arg *pdata);
 char	**ft_split_p(const char *str, char c);
