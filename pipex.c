@@ -17,7 +17,7 @@ int	main(int argc, char *argv[], char *env[])
 {
 	int 	fd[2];
 	int		err;
-	arg 	pdata;
+	t_args 	pdata;
 
 	if (args_false(argc, argv))
 		return (1);
@@ -30,40 +30,14 @@ int	main(int argc, char *argv[], char *env[])
 		perror("ERROR opening file");
 		return (err);
 	}
-	err = arg_init(&pdata, argv, env);
+	err = args_init(&pdata, argv, env);
 	//printf("file err: %d\n", err);
 	if (err != 0)
 	{
-		perror("ERROR executing binary");
+		ft_printf("bash: %s: command not found...\n", pdata.args1[0]);
 		return (err);	
 	}
 
-	int i;
-	i = 0;
-	while (pdata.args1[i]){
-		printf("args1: %s\n", pdata.args1[i]);
-		i++;
-	}
-	i = 0;
-	while (pdata.args2[i]){
-		printf("args2: %s\n", pdata.args2[i]);
-		i++;
-	}
-	
-	// int	i;
-	// i = 0;
-	// while (pdata.cmd_path1[i]){
-	// 	printf("cmd1: %s\n", pdata.cmd_path1[i]);
-	// 	i++;
-	// }
-	// i = 0;
-	// while (pdata.cmd_path2[i]){
-	// 	printf("cmd2: %s\n", pdata.cmd_path2[i]);
-	// 	i++;
-	// }
-
-	//pdata.filein = open(argv[1], O_RDONLY);
-	//pdata.fileout = open(argv[4], O_WRONLY | O_CREAT, 0644);
 	dup2(pdata.filein, STDIN_FILENO);
 
 	// create pipe by populating fd
@@ -110,17 +84,7 @@ int	main(int argc, char *argv[], char *env[])
 	waitpid(pid1, NULL, 0);
 	waitpid(pid2, NULL, 0);
 
-	// int i;
-	// i = 0;
-	// while (pdata.args1[i]){
-	// 	printf("args1: %s\n", pdata.cmd_path1[i]);
-	// 	i++;
-	// }
-	// i = 0;
-	// while (pdata.args2[i]){
-	// 	printf("args2: %s\n", pdata.cmd_path2[i]);
-	// 	i++;
-	// }
+
 
 	struct_free(pdata.paths);
 	pdata.paths = NULL;
@@ -172,7 +136,7 @@ void	args_free(char **arr)
 	}
 }
 // separate out checks and return errors
-int	io_access(arg *pdata, char *argv[])
+int	io_access(t_args *pdata, char *argv[])
 {
 	mode_t	c_umask = umask(0);
 	mode_t	perm;
@@ -196,4 +160,30 @@ int	args_false(int argc, char *argv[])
 	if (ft_strlen(argv[1]) == 0 || ft_strlen(argv[3]) == 0)
 		return (1);
 	return (0);
+}
+
+void	print_debug(t_args *pdata)
+{
+	int i;
+	i = 0;
+	while (pdata->args1[i]){
+		printf("args1: %s\n", pdata->args1[i]);
+		i++;
+	}
+	i = 0;
+	while (pdata->args2[i]){
+		printf("args2: %s\n", pdata->args2[i]);
+		i++;
+	}
+	
+	// i = 0;
+	// while (pdata->cmd_path1[i]){
+	// 	printf("cmd1: %s\n", pdata->cmd_path1[i]);
+	// 	i++;
+	// }
+	// i = 0;
+	// while (pdata->cmd_path2[i]){
+	// 	printf("cmd2: %s\n", pdata->cmd_path2[i]);
+	// 	i++;
+	// }
 }

@@ -12,7 +12,7 @@
 #include <sys/wait.h>
 #include "libft/libft.h"
 
-typedef struct s_args
+typedef struct t_args
 {
 	int		filein;
 	int		fileout;
@@ -24,14 +24,19 @@ typedef struct s_args
 	char	**cmd_path2; // 
 	char	*path1;
 	char	*path2;
-}				arg;
+}				t_args;
 
 int		args_false(int argc, char *argv[]);
-int		io_access(arg *pdata, char *argv[]);
-void	get_path(arg *pdata, char *env[]);
-int		get_valid_path(arg *pdata);
+int		io_access(t_args *pdata, char *argv[]);
+void	get_path(t_args *pdata, char *env[]);
+int		get_valid_path(t_args *pdata);
 char	**ft_split_p(const char *str, char c);
-void	parse_cmds(arg *pdata, char *argv[]);
-int		arg_init(arg *pdata, char *argv[], char *env[]);
+//void	parse_cmds(t_args *pdata, char *argv[]);
+int		args_init(t_args *pdata, char *argv[], char *env[]);
+
+int		parse_cmds(char ***args_n, const char *args);
+int		get_cmd_path(t_args *pdata, char ***cmd_path, char ***args);
+//void	get_cmd_path(t_args *pdata);
+int		gen_get_valid_path(t_args *pdata, char ***cmd_path, char **path);
 
 #endif
