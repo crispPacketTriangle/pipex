@@ -161,7 +161,7 @@ int	get_valid_path(t_args *pdata, char ***cmd_path, char **path)
 	if (val == 0)
 		return (127);
 	if (access(*path, X_OK) == -1)
-		return (127);
+		return (127); // should also be 127?
 	return (0);
 }
 

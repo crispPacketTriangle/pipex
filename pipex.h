@@ -14,7 +14,8 @@
 
 typedef struct t_args
 {
-	int		err;
+	int		ferr;
+	int		serr;
 	int		err1;
 	int		err2;
 	int		f_err1;

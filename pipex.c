@@ -18,7 +18,8 @@ void	args_free(char **arr);
 
 void	init_data(t_args *pdata)
 {
-	pdata->err = 0;
+	pdata->ferr = 0;
+	pdata->serr = 0;
 	pdata->err1 = 0;
 	pdata->err2 = 0;
 	pdata->f_err1 = 0;
@@ -42,17 +43,10 @@ int	main(int argc, char *argv[], char *env[])
 		return (1);
 	init_data(&pdata);
 	pdata.err1 = args1_init(&pdata, argv, env);
-	if (pdata.err1 != 0)
-		pdata.err = pdata.err1;
 	pdata.err2 = args2_init(&pdata, argv, env);
-	if (pdata.err2 != 0)
-		pdata.err = pdata.err2;
 	pdata.f_err1 = i_access(&pdata, argv);
-	if (pdata.f_err1 != 0)
-		pdata.err = pdata.f_err1;
 	pdata.f_err2 = o_access(&pdata, argv);
-	if (pdata.f_err2 != 0)
-		pdata.err = pdata.f_err2;
+
 	//print_debug(&pdata);
 
 	dup2(pdata.filein, STDIN_FILENO);
@@ -74,9 +68,9 @@ int	main(int argc, char *argv[], char *env[])
 		close(fd[1]); // closing duplicated version -- need some clarification on this
 		if (pdata.err1 == 0 && pdata.f_err1 == 0)
 			execve(pdata.args1[0], pdata.args1, env);
-		if (pdata.err1 != 0)
-			_exit(pdata.err1);
-		_exit(pdata.f_err1);
+		if (pdata.f_err1 != 0)
+			_exit(pdata.f_err1);
+		_exit(pdata.err1);
 	}
 
 	int pid2 = fork();
@@ -106,8 +100,10 @@ int	main(int argc, char *argv[], char *env[])
 	// 	exit(pdata.err);
 	// if (waitpid(pid2, NULL, 0) == -1)
 	// 	exit(pdata.err);
-	waitpid(pid1, NULL, 0);
-	waitpid(pid2, NULL, 0);
+	printf("wait: %d\n", waitpid(pid1, &pdata.ferr, 0));
+	printf("%d\n", pdata.ferr);	
+	printf("wait2: %d\n", waitpid(pid2, &pdata.serr, 0));
+	printf("%d\n", pdata.serr);	
 
 	//printf("..\n");
 	//print_debug(&pdata);
@@ -128,7 +124,7 @@ int	main(int argc, char *argv[], char *env[])
 	//printf("..\n");
 	printf("err: %d\n", pdata.err1);
 
-	return (pdata.err);
+	return (WEXITSTATUS(pdata.serr));
 }
 
 void	struct_free(char **arr)
