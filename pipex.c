@@ -18,9 +18,13 @@ void	args_free(char **arr);
 
 void	init_data(t_args *pdata)
 {
+	pdata->err = 0;
+	pdata->err1 = 0;
+	pdata->err2 = 0;
+	pdata->f_err1 = 0;
+	pdata->f_err2 = 0;
 	pdata->args1 = NULL;
 	pdata->args2 = NULL;
-	pdata->files = NULL;
 	pdata->paths = NULL;
 	pdata->cmd_path1 = NULL;
 	pdata->cmd_path2 = NULL;
@@ -32,20 +36,24 @@ int erro = 0;
 int	main(int argc, char *argv[], char *env[])
 {
 	int 	fd[2];
-	int		err1;
-	int		err2;
-	int		f_err1;
-	int		f_err2;
 	t_args 	pdata;
 
-	pdata.err = 0;
 	if (args_false(argc, argv))
 		return (1);
 	init_data(&pdata);
-	err1 = args1_init(&pdata, argv, env);
-	err2 = args2_init(&pdata, argv, env);
-	f_err1 = i_access(&pdata, argv);
-	f_err2 = o_access(&pdata, argv);
+	pdata.err1 = args1_init(&pdata, argv, env);
+	if (pdata.err1 != 0)
+		pdata.err = pdata.err1;
+	pdata.err2 = args2_init(&pdata, argv, env);
+	if (pdata.err2 != 0)
+		pdata.err = pdata.err2;
+	pdata.f_err1 = i_access(&pdata, argv);
+	if (pdata.f_err1 != 0)
+		pdata.err = pdata.f_err1;
+	pdata.f_err2 = o_access(&pdata, argv);
+	if (pdata.f_err2 != 0)
+		pdata.err = pdata.f_err2;
+	//print_debug(&pdata);
 
 	dup2(pdata.filein, STDIN_FILENO);
 	// create pipe by populating fd
@@ -64,7 +72,11 @@ int	main(int argc, char *argv[], char *env[])
 		dup2(fd[1], STDOUT_FILENO);
 		close(fd[0]); // closed as not in use
 		close(fd[1]); // closing duplicated version -- need some clarification on this
-		execve(pdata.args1[0], pdata.args1, env);
+		if (pdata.err1 == 0 && pdata.f_err1 == 0)
+			execve(pdata.args1[0], pdata.args1, env);
+		if (pdata.err1 != 0)
+			_exit(pdata.err1);
+		_exit(pdata.f_err1);
 	}
 
 	int pid2 = fork();
@@ -80,7 +92,11 @@ int	main(int argc, char *argv[], char *env[])
 		dup2(pdata.fileout, STDOUT_FILENO);
 		close(fd[0]);
 		close(fd[1]);
-		execve(pdata.args2[0], pdata.args2, env);
+		if (pdata.err2 == 0 && pdata.f_err2 == 0)
+			execve(pdata.args2[0], pdata.args2, env);
+		if (pdata.err2 != 0)
+			_exit(pdata.err2);
+		_exit(pdata.f_err2);
 	}
 	// grep will continue to wait for input until all open file descriptors
 	// are closed so we must close the open fd and any fds not in use
@@ -92,6 +108,9 @@ int	main(int argc, char *argv[], char *env[])
 	// 	exit(pdata.err);
 	waitpid(pid1, NULL, 0);
 	waitpid(pid2, NULL, 0);
+
+	//printf("..\n");
+	//print_debug(&pdata);
 
 	struct_free(pdata.paths);
 	pdata.paths = NULL;
@@ -105,10 +124,11 @@ int	main(int argc, char *argv[], char *env[])
 	pdata.args2 = NULL;
 	close(pdata.filein);
 	close(pdata.fileout);
+	
+	//printf("..\n");
+	printf("err: %d\n", pdata.err1);
 
-
-
-	return (erro);
+	return (pdata.err);
 }
 
 void	struct_free(char **arr)
@@ -117,9 +137,11 @@ void	struct_free(char **arr)
 
 	if (arr)
 	{
+		//printf("not null\n");
 		i = 0;
 		while (arr[i])
 		{
+			//printf("element exists\n");
 			free(arr[i]);
 			i++;
 		}
@@ -131,11 +153,13 @@ void	args_free(char **arr)
 {
 	int	i;
 
-	if (*arr)
+	if (arr)
 	{
+		//printf("not null\n");
 		i = 1;
 		while (arr[i])
 		{
+			//printf("element exists\n");
 			free(arr[i]);
 			i++;
 		}
@@ -146,9 +170,13 @@ void	args_free(char **arr)
 int	i_access(t_args *pdata, char *argv[])
 {
 	// should we say != 0
-	if (access(argv[1], F_OK) != 0)
+	if (access(argv[1], F_OK) == -1)
+	{
+		printf("errno: %d\n", errno);
 		return (errno);
-	if (access(argv[1], R_OK) != 0)
+	}
+	printf("??\n");
+	if (access(argv[1], R_OK) == -1)
 		return (errno);
 	pdata->filein = open(argv[1], O_RDONLY);
 	return (0);
@@ -207,14 +235,14 @@ void	print_debug(t_args *pdata)
 		i++;
 	}
 	
-	// i = 0;
-	// while (pdata->cmd_path1[i]){
-	// 	printf("cmd1: %s\n", pdata->cmd_path1[i]);
-	// 	i++;
-	// }
-	// i = 0;
-	// while (pdata->cmd_path2[i]){
-	// 	printf("cmd2: %s\n", pdata->cmd_path2[i]);
-	// 	i++;
-	// }
+	i = 0;
+	while (pdata->cmd_path1[i]){
+		printf("cmd1: %s\n", pdata->cmd_path1[i]);
+		i++;
+	}
+	i = 0;
+	while (pdata->cmd_path2[i]){
+		printf("cmd2: %s\n", pdata->cmd_path2[i]);
+		i++;
+	}
 }

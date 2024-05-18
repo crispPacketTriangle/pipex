@@ -23,8 +23,8 @@ int	parse_cmds(char ***args_n, const char *args)
 	if (ft_strlen(args) > 0)
 	{
 	*args_n = ft_split(args, ' ');
-	if ((*args_n)[1])
-		(*args_n)[1] = ft_strtrim((*args_n)[1], "\'\"");
+	// if ((*args_n)[1])
+	// 	(*args_n)[1] = ft_strtrim((*args_n)[1], "\'\"");
 	}
 	return (0);
 }
@@ -156,12 +156,12 @@ int	get_valid_path(t_args *pdata, char ***cmd_path, char **path)
 		}
 		i++;
 	}
+	// printf("val: %d\n", val);
+	// printf("errno: %d\n", errno);
 	if (val == 0)
-	{
-		return (errno);
-	}
+		return (127);
 	if (access(*path, X_OK) == -1)
-		return (errno);
+		return (127);
 	return (0);
 }
 
@@ -173,10 +173,10 @@ int	get_valid_path(t_args *pdata, char ***cmd_path, char **path)
 // 	(*pdata).args2[0] = (*pdata).path2;
 // }
 
-void	add_valid_path(char **path, char ***arg)
+void	add_valid_path(char *path, char ***arg)
 {
 	free((*arg)[0]);
-	(*arg)[0] = *path;
+	(*arg)[0] = path;
 	
 }
 
@@ -192,9 +192,12 @@ int	args1_init(t_args *pdata, char *argv[], char *env[])
 	// get_valid_path returns valid path to command in pdata.path
 	err = get_valid_path(pdata, &pdata->cmd_path1, &pdata->path1);
 	if (err != 0)
+	{
+		free(pdata->args1[0]);
 		return (err);
+	}
 	// add valid path to cmds
-	add_valid_path(&pdata->path1, &pdata->args1);
+	add_valid_path(pdata->path1, &pdata->args1);
 	return (0);
 }
 
@@ -210,9 +213,12 @@ int	args2_init(t_args *pdata, char *argv[], char *env[])
 	// get_valid_path returns valid path to command in pdata.path
 	err = get_valid_path(pdata, &pdata->cmd_path2, &pdata->path2);
 	if (err != 0)
+	{
+		free(pdata->args2[0]);
 		return (err);
+	}
 	// add valid path to cmds
-	add_valid_path(&pdata->path2, &pdata->args2);
+	add_valid_path(pdata->path2, &pdata->args2);
 	return (0);
 }
 
