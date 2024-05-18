@@ -14,6 +14,7 @@
 
 typedef struct t_args
 {
+	int		err;
 	int		filein;
 	int		fileout;
 	char	**args1;
@@ -27,16 +28,21 @@ typedef struct t_args
 }				t_args;
 
 int		args_false(int argc, char *argv[]);
+void	init_data(t_args *pdata);
 int		io_access(t_args *pdata, char *argv[]);
+int		i_access(t_args *pdata, char *argv[]);
+int		o_access(t_args *pdata, char *argv[]);
 void	get_path(t_args *pdata, char *env[]);
-int		get_valid_path(t_args *pdata);
+//int		get_valid_path(t_args *pdata);
 char	**ft_split_p(const char *str, char c);
 //void	parse_cmds(t_args *pdata, char *argv[]);
-int		args_init(t_args *pdata, char *argv[], char *env[]);
+int		args1_init(t_args *pdata, char *argv[], char *env[]);
+int		args2_init(t_args *pdata, char *argv[], char *env[]);
 
 int		parse_cmds(char ***args_n, const char *args);
 int		get_cmd_path(t_args *pdata, char ***cmd_path, char ***args);
 //void	get_cmd_path(t_args *pdata);
-int		gen_get_valid_path(t_args *pdata, char ***cmd_path, char **path);
+int		get_valid_path(t_args *pdata, char ***cmd_path, char **path);
+void	add_valid_path(char **path, char ***arg);
 
 #endif
