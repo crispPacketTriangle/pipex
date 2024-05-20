@@ -25,8 +25,9 @@ int	parse_cmds(char ***args_n, const char *args)
 	*args_n = ft_split(args, ' ');
 	// if ((*args_n)[1])
 	// 	(*args_n)[1] = ft_strtrim((*args_n)[1], "\'\"");
-	}
 	return (0);
+	}
+	return (69);
 }
 
 void	get_path(t_args *pdata, char *env[])
@@ -184,7 +185,9 @@ int	args1_init(t_args *pdata, char *argv[], char *env[])
 {
 	int	err;
 	// populates args1/args2 with commands and arguments
-	parse_cmds(&pdata->args1, argv[2]);
+	err = parse_cmds(&pdata->args1, argv[2]);
+	if (err == 69)
+		return (err);
 	//get_path populates pdata.paths with paths in PATH
 	get_path(pdata, env);
 	// get_cmd_path populates pdata.cmd_path with possible paths to commands
@@ -205,7 +208,9 @@ int	args2_init(t_args *pdata, char *argv[], char *env[])
 {
 	int	err;
 	// populates args1/args2 with commands and arguments
-	parse_cmds(&pdata->args2, argv[3]);
+	err = parse_cmds(&pdata->args2, argv[3]);
+	if (err == 69)
+		return (err);
 	//get_path populates pdata.paths with paths in PATH
 	get_path(pdata, env);
 	// get_cmd_path populates pdata.cmd_path with possible paths to commands
