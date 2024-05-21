@@ -3,6 +3,14 @@ import time
 
 # case.append("file 'echo "$num 1"'  'awk "{printf "%02d", $1 + $2}"' fileout")
 
+RED = '\033[91m'
+GREEN = '\033[92m'
+YELLOW = '\033[93m'
+BLUE = '\033[94m'
+MAGENTA = '\033[95m'
+CYAN = '\033[96m'
+RESET = '\033[0m'
+
 
 def main():
 
@@ -39,19 +47,23 @@ def main():
 
     for i in range(0, len(case)):
 
-        print(f" test {i}:")
+        print(MAGENTA + f" test {i}:" + RESET)
         print(f"({base[i]})")
-        r = os.system(f'{base[i]}')
-        print(r >> 8)
+        r1 = os.system(f'{base[i]}')
+        print(r1 >> 8)
         print(f"(./pipex {case[i]})")
-        r = os.system(f'./pipex {case[i]}')
-        print(r >> 8)
+        r2 = os.system(f'./pipex {case[i]}')
+        print(r2 >> 8)
+        if (r1 >> 8) == (r2 >> 8):
+            print(GREEN + " OK" + RESET)
+        else:
+            print(RED + " KO" + RESET)
         print("------------------------------------------")
         time.sleep(1)
 
     for i in range(0, len(case)):
 
-        print(f" mem leak test {i}:")
+        print(BLUE + f" mem leak test {i}:" + RESET)
         print(f"(./pipex {case[i]})")
         os.system(f'valgrind --trace-children=yes {case[i]}')
         print("------------------------------------------")
@@ -62,7 +74,6 @@ def main():
     for i in files:
         os.system(f'rm {i}')
 
-    print("./pipex /dev/urandom/ sort cat fileout")
     print("Enter a few lines of input the hit <ctrl-d>")
     os.system("./pipex /dev/stdin sort cat fileout")
 
