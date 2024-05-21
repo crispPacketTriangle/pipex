@@ -1,52 +1,53 @@
 #include <stdio.h>
 #include "pipex.h"
 
-void	awk_parser(const char *args, char ***prs_args)
+void	awk_parser(const char *args, char ***prs_args, t_args *pdata)
 {
-	int	i;
-	int	s;
-	int n;
-
-	i = 0;
-	s = 0;
-	n = 0;
-	// incase typo leading space
-	while (args[i] && args[i] == ' ')
-			i++;
-	while (args[i])
-	{	
-		while (args[i] && args[i] != ' ')
+	set_isn(pdata);
+	while (args[pdata->i] && args[pdata->i] == ' ')
+		pdata->i++;
+	while (args[pdata->i])
+	{
+		while (args[pdata->i] && args[pdata->i] != ' ')
 		{
-			if (args[i] == '\'' || args[i] == '\"')
+			if (args[pdata->i] == '\'' || args[pdata->i] == '\"')
 			{
-				i++;
-				while (args[i] && (args[i] != '\'' && args[i] != '\"'))
-					i++;
+				pdata->i++;
+				while (args[pdata->i] && (args[pdata->i] != '\''
+						&& args[pdata->i] != '\"'))
+					pdata->i++;
 			}
-			i++;
+			pdata->i++;
 		}
-		if (s - 1 > 0 && (args[s] == '\'' || args[s] == '\"') && args[s - 1] == ' ')
-			(*prs_args)[n] = ft_substr(args, s + 1, (i - s) - 2);
-		else
-			(*prs_args)[n] = ft_substr(args, s, i - s);
-		//s = i + 1;
-		n++;
-		while (args[i] && args[i] == ' ')
-			i++;
-		s = i;
+		make_sub(args, prs_args, pdata);
+		pdata->n++;
+		while (args[pdata->i] && args[pdata->i] == ' ')
+			pdata->i++;
+		pdata->s = pdata->i;
 	}
-	(*prs_args)[n] = NULL;
+	(*prs_args)[pdata->n] = NULL;
+}
+
+void	make_sub(const char *args, char ***prs_args, t_args *pdata)
+{
+	if (pdata->s - 1 > 0 && (args[pdata->s] == '\''
+			|| args[pdata->s] == '\"') && args[pdata->s - 1] == ' ')
+		(*prs_args)[pdata->n] = ft_substr(args, pdata->s + 1,
+				(pdata->i - pdata->s) - 2);
+	else
+		(*prs_args)[pdata->n] = ft_substr(args, pdata->s,
+				pdata->i - pdata->s);
 }
 
 int	first_pass(const char *args)
 {
 	int	i;
-	int n;
+	int	n;
 
 	i = 0;
 	n = 0;
 	while (args[i])
-	{	
+	{
 		while (args[i] && args[i] != ' ')
 		{
 			if (args[i] == '\'' || args[i] == '\"')
@@ -60,7 +61,6 @@ int	first_pass(const char *args)
 		n++;
 		while (args[i] && args[i] == ' ')
 			i++;
-		//ft_printf("%c\n", args[i]);
 	}
 	return (n);
 }
@@ -70,6 +70,12 @@ void	make_room(char ***pdata, int n)
 	*pdata = malloc((n + 1) * sizeof(char *));
 }
 
+void	set_isn(t_args *pdata)
+{
+	pdata->i = 0;
+	pdata->s = 0;
+	pdata->n = 0;
+}
 // void	print_debug(t_args *pdata)
 // {
 // 	int	i;
@@ -80,8 +86,26 @@ void	make_room(char ***pdata, int n)
 // 		printf("args1: %s\n", pdata->args1[i]);
 // 		i++;
 // 	}
+// 	i = 0;
+// 	while (pdata->args2[i])
+// 	{
+// 		printf("args2: %s\n", pdata->args2[i]);
+// 		i++;
+// 	}
+// 	i = 0;
+// 	while (pdata->cmd_path1[i])
+// 	{
+// 		printf("cmd1: %s\n", pdata->cmd_path1[i]);
+// 		i++;
+// 	}
+// 	i = 0;
+// 	while (pdata->cmd_path2[i])
+// 	{
+// 		printf("cmd2: %s\n", pdata->cmd_path2[i]);
+// 		i++;
+// 	}
 // }
-//
+
 // int	main()
 // {
 // 	t_args	data;

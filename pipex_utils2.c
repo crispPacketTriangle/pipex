@@ -31,18 +31,16 @@ int	process1(t_args *pdata, char *env[], char *argv[])
 {
 	if (pdata->err1 == 0 && pdata->f_err1 == 0)
 		execve(pdata->path1, pdata->args1, env);
-		//execve(pdata->args1[0], pdata->args1, env);
 	if (pdata->err1 == 69)
 		return (0);
 	if (pdata->f_err1 != 0)
 	{
-		//persub("pipex_utils2: line 38: ", argv[1]);
 		return (pdata->f_err1);
 	}
 	if (pdata->err1 == 127)
 	{
 		errsub("pipex_utils2: line: 43: ",
-				argv[2], ": command not found\n");
+			argv[2], ": command not found\n");
 		return (pdata->err1);
 	}
 	persub("pipex_utils2: line 47: ", argv[2]);
@@ -53,13 +51,12 @@ int	process2(t_args *pdata, char *env[], char *argv[])
 {
 	if (pdata->err2 == 0 && pdata->f_err2 == 0)
 		execve(pdata->path2, pdata->args2, env);
-		//execve(pdata->args2[0], pdata->args2, env);
 	if (pdata->err2 == 69)
 		return (0);
 	if (pdata->err2 == 127)
 	{
 		errsub("pipex_utils2: line: 59: ",
-				argv[3], ": command not found\n");
+			argv[3], ": command not found\n");
 		return (pdata->err2);
 	}
 	if (pdata->err2 != 0)
@@ -67,6 +64,5 @@ int	process2(t_args *pdata, char *env[], char *argv[])
 		persub("pipex_utils2: line 65: ", argv[3]);
 		return (pdata->err2);
 	}
-	//persub("pipex_utils2: line 68: ", argv[4]);
 	return (pdata->f_err2);
 }

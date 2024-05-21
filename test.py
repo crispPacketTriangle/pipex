@@ -1,6 +1,8 @@
 import os
 import time
 
+# case.append("file 'echo "$num 1"'  'awk "{printf "%02d", $1 + $2}"' fileout")
+
 
 def main():
 
@@ -30,11 +32,6 @@ def main():
 
     base.append("< locked sort | cat > fileout")
     case.append("locked sort cat fileout")
-
-    # os.system('chmod 777 locked')
-    # os.system('rm locked')
-    # os.system('touch locked && chmod 000 locked')
-
     base.append("< file sort | cat > locked")
     case.append("file sort cat locked")
 
@@ -52,10 +49,22 @@ def main():
         print("------------------------------------------")
         time.sleep(1)
 
+    for i in range(0, len(case)):
+
+        print(f" mem leak test {i}:")
+        print(f"(./pipex {case[i]})")
+        os.system(f'valgrind --trace-children=yes {case[i]}')
+        print("------------------------------------------")
+        time.sleep(1)
+
     os.system('chmod 777 locked')
 
     for i in files:
         os.system(f'rm {i}')
+
+    print("./pipex /dev/urandom/ sort cat fileout")
+    print("Enter a few lines of input the hit <ctrl-d>")
+    os.system("./pipex /dev/stdin sort cat fileout")
 
 
 if __name__ == "__main__":

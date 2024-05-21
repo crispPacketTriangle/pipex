@@ -1,19 +1,21 @@
 #ifndef PIPEX_H
-#define PIPEX_H
+# define PIPEX_H
 
-#include <stdio.h>
-#include <fcntl.h>
-#include <unistd.h>
-#include <stdlib.h>
-#include <errno.h>
-#include <string.h>
-#include <sys/stat.h>
-#include <sys/types.h>
-#include <sys/wait.h>
-#include "libft/libft.h"
+# include <fcntl.h>
+# include <unistd.h>
+# include <stdlib.h>
+# include <errno.h>
+# include <string.h>
+# include <sys/stat.h>
+# include <sys/types.h>
+# include <sys/wait.h>
+# include "libft/libft.h"
 
 typedef struct t_args
 {
+	int		i;
+	int		s;
+	int		n;
 	int		fd[2];
 	int		pid1;
 	int		pid2;
@@ -44,7 +46,7 @@ void	get_path(t_args *pdata, char *env[]);
 char	**ft_split_p(const char *str, char c);
 int		args1_init(t_args *pdata, char *argv[], char *env[]);
 int		args2_init(t_args *pdata, char *argv[], char *env[]);
-int		parse_cmds(char ***args_n, const char *args);
+int		parse_cmds(char ***args_n, const char *args, t_args *pdata);
 void	parser(char ***args_n, const char *args);
 int		isin_str(const char *args);
 int		get_cmd_path(t_args *pdata, char ***cmd_path, char ***args);
@@ -61,9 +63,10 @@ void	wait_free(t_args *pdata);
 void	print_debug(t_args *pdata);
 void	errsub(const char *ln, const char *s, const char *err);
 void	persub(const char *ln, const char *s);
-void	awk_parser(const char *args, char ***prs_args);
+void	awk_parser(const char *args, char ***prs_args, t_args *pdata);
 int		first_pass(const char *args);
 void	make_room(char ***pdata, int n);
+void	make_sub(const char *args, char ***prs_args, t_args *pdata);
+void	set_isn(t_args *pdata);
 
 #endif
-

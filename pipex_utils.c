@@ -1,7 +1,7 @@
 #include "pipex.h"
 
 // error handling in parser with malloc, split, etc
-int	parse_cmds(char ***args_n, const char *args)
+int	parse_cmds(char ***args_n, const char *args, t_args *pdata)
 {
 	int	n;
 
@@ -9,20 +9,10 @@ int	parse_cmds(char ***args_n, const char *args)
 	{
 		n = first_pass(args);
 		make_room(args_n, n);
-		awk_parser(args, args_n);
+		awk_parser(args, args_n, pdata);
 		return (0);
 	}
 	return (69);
-
-
-	// if (ft_strlen(args) > 0)
-	// {
-	// 	*args_n = ft_split(args, ' ');
-	// 	if (isin_str(args))
-	// 		parser(args_n, args);
-	// 	return (0);
-	// }
-	// return (69);
 }
 
 void	get_path(t_args *pdata, char *env[])
@@ -53,7 +43,7 @@ int	get_cmd_path(t_args *pdata, char ***cmd_path, char ***args)
 	while (pdata->paths[i])
 	{
 		(*cmd_path)[i] = ft_strjoin(pdata->paths[i],
-			(*args)[0]);
+				(*args)[0]);
 		i++;
 	}
 	(*cmd_path)[i] = NULL;
@@ -86,7 +76,5 @@ int	get_valid_path(t_args *pdata, char ***cmd_path, char **path)
 void	add_valid_path(char *path, char ***arg)
 {
 	free((*arg)[0]);
-	(*arg)[0] = path;	
+	(*arg)[0] = path;
 }
-
-
