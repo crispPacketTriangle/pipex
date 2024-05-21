@@ -68,5 +68,11 @@ int		first_pass(const char *args);
 void	make_room(char ***pdata, int n);
 void	make_sub(const char *args, char ***prs_args, t_args *pdata);
 void	set_isn(t_args *pdata);
+int		str_n(const char *str, char c);
+int		str_gen(const char *str, char c, char **arr, int n);
+void	free_all(char **arr);
+char	*ft_substr_p(const char *s, unsigned int st, size_t len);
+char	*sub(const char *s, char *ptr, unsigned int st, unsigned int size);
+char	*sngl_char(const char *s, char *ptr, unsigned int st);
 
 #endif
