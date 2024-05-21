@@ -3,7 +3,9 @@ FLAGS=-Wall -Werror -Wextra
 NAME=pipex
 EXT=-L ./libft/ -lft
 LOGO=~/42/fdf/logo.sh
-SRCS=pipex.c pipex_utils.c ft_split_p.c
+SRCS=pipex.c pipex_utils.c pipex_utils2.c pipex_utils3.c \
+		pipex_utils4.c ft_split_p.c parser.c \
+
 OBJS= $(SRCS:.c=.o)
 LIBFT=/libft/
 LFT=libft.a
