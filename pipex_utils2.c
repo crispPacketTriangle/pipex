@@ -30,12 +30,13 @@ int	pipe_setup_2(t_args *pdata, char *env[], char *argv[])
 int	process1(t_args *pdata, char *env[], char *argv[])
 {
 	if (pdata->err1 == 0 && pdata->f_err1 == 0)
-		execve(pdata->args1[0], pdata->args1, env);
+		execve(pdata->path1, pdata->args1, env);
+		//execve(pdata->args1[0], pdata->args1, env);
 	if (pdata->err1 == 69)
 		return (0);
 	if (pdata->f_err1 != 0)
 	{
-		persub("pipex_utils2: line 38: ", argv[1]);
+		//persub("pipex_utils2: line 38: ", argv[1]);
 		return (pdata->f_err1);
 	}
 	if (pdata->err1 == 127)
@@ -51,7 +52,8 @@ int	process1(t_args *pdata, char *env[], char *argv[])
 int	process2(t_args *pdata, char *env[], char *argv[])
 {
 	if (pdata->err2 == 0 && pdata->f_err2 == 0)
-		execve(pdata->args2[0], pdata->args2, env);
+		execve(pdata->path2, pdata->args2, env);
+		//execve(pdata->args2[0], pdata->args2, env);
 	if (pdata->err2 == 69)
 		return (0);
 	if (pdata->err2 == 127)
@@ -65,6 +67,6 @@ int	process2(t_args *pdata, char *env[], char *argv[])
 		persub("pipex_utils2: line 65: ", argv[3]);
 		return (pdata->err2);
 	}
-	persub("pipex_utils2: line 68: ", argv[4]);
+	//persub("pipex_utils2: line 68: ", argv[4]);
 	return (pdata->f_err2);
 }

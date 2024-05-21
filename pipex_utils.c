@@ -3,14 +3,26 @@
 // error handling in parser with malloc, split, etc
 int	parse_cmds(char ***args_n, const char *args)
 {
+	int	n;
+
 	if (ft_strlen(args) > 0)
 	{
-		*args_n = ft_split(args, ' ');
-		if (isin_str(args))
-			parser(args_n, args);
+		n = first_pass(args);
+		make_room(args_n, n);
+		awk_parser(args, args_n);
 		return (0);
 	}
 	return (69);
+
+
+	// if (ft_strlen(args) > 0)
+	// {
+	// 	*args_n = ft_split(args, ' ');
+	// 	if (isin_str(args))
+	// 		parser(args_n, args);
+	// 	return (0);
+	// }
+	// return (69);
 }
 
 void	get_path(t_args *pdata, char *env[])
@@ -67,15 +79,14 @@ int	get_valid_path(t_args *pdata, char ***cmd_path, char **path)
 	if (val == 0)
 		return (127);
 	if (access(*path, X_OK) == -1)
-		return (127);
+		return (errno);
 	return (0);
 }
 
 void	add_valid_path(char *path, char ***arg)
 {
 	free((*arg)[0]);
-	(*arg)[0] = path;
-	
+	(*arg)[0] = path;	
 }
 
 

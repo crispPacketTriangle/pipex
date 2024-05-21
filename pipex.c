@@ -44,44 +44,19 @@ void	init_data(t_args *pdata)
 
 }
 
-// void	struct_free(char **arr)
-// {
-// 	int	i;
-//
-// 	if (arr)
-// 	{
-// 		i = 0;
-// 		while (arr[i])
-// 		{
-// 			free(arr[i]);
-// 			i++;
-// 		}
-// 		free(arr);
-// 	}
-// }
-//
-// void	args_free(char **arr)
-// {
-// 	int	i;
-//
-// 	if (arr)
-// 	{
-// 		i = 1;
-// 		while (arr[i])
-// 		{
-// 			free(arr[i]);
-// 			i++;
-// 		}
-// 		free(arr);
-// 	}
-// }
 
 int	i_access(t_args *pdata, char *argv[])
 {
 	if (access(argv[1], F_OK) == -1)
-		return (errno);
+	{
+		persub("pipex: line 52: ", argv[1]); // adj line number after norm
+		return (1);
+	}
 	if (access(argv[1], R_OK) == -1)
-		return (errno);
+	{
+		persub("pipex: line 57: ", argv[1]); // adj line number after norm
+		return (1);
+	}
 	pdata->filein = open(argv[1], O_RDONLY);
 	return (0);
 }
@@ -96,8 +71,11 @@ int	o_access(t_args *pdata, char *argv[])
 	perm = (S_IRUSR | S_IWUSR | S_IRGRP | S_IWGRP
 			| S_IROTH | S_IWOTH) & ~c_umask;
 	pdata->fileout = open(argv[4], O_WRONLY | O_CREAT | O_TRUNC, perm);
-	if (access(argv[4], W_OK) == -1)
-		return (errno);
+	if (pdata->fileout == -1)
+	{
+		persub("pipex: line 70: ", argv[4]); // adj line number after norm
+		return (1);
+	}
 	return (0);
 }
 

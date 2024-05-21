@@ -61,6 +61,9 @@ void	wait_free(t_args *pdata);
 void	print_debug(t_args *pdata);
 void	errsub(const char *ln, const char *s, const char *err);
 void	persub(const char *ln, const char *s);
+void	awk_parser(const char *args, char ***prs_args);
+int		first_pass(const char *args);
+void	make_room(char ***pdata, int n);
 
 #endif
 

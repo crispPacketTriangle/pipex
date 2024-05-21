@@ -11,10 +11,10 @@ int	args1_init(t_args *pdata, char *argv[], char *env[])
 	err = get_valid_path(pdata, &pdata->cmd_path1, &pdata->path1);
 	if (err != 0)
 	{
-		free(pdata->args1[0]);
+		//free(pdata->args1[0]);
 		return (err);
 	}
-	add_valid_path(pdata->path1, &pdata->args1);
+	//add_valid_path(pdata->path1, &pdata->args1);
 	return (0);
 }
 
@@ -29,10 +29,10 @@ int	args2_init(t_args *pdata, char *argv[], char *env[])
 	err = get_valid_path(pdata, &pdata->cmd_path2, &pdata->path2);
 	if (err != 0)
 	{
-		free(pdata->args2[0]);
+		//free(pdata->args2[0]);
 		return (err);
 	}
-	add_valid_path(pdata->path2, &pdata->args2);
+	//add_valid_path(pdata->path2, &pdata->args2);
 	return (0);
 }
 

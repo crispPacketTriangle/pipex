@@ -22,7 +22,7 @@ void	args_free(char **arr)
 
 	if (arr)
 	{
-		i = 1;
+		i = 0;
 		while (arr[i])
 		{
 			free(arr[i]);
