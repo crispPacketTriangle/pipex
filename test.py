@@ -1,7 +1,6 @@
 import os
 import time
 
-# case.append("file 'echo "$num 1"'  'awk "{printf "%02d", $1 + $2}"' fileout")
 
 RED = '\033[91m'
 GREEN = '\033[92m'
@@ -42,6 +41,8 @@ def main():
     case.append("locked sort cat fileout")
     base.append("< file sort | cat > locked")
     case.append("file sort cat locked")
+    base.append("""< file echo "$num 1" | awk '{printf "%02d", $1 + $2}' > fileout""")
+    case.append("""file 'echo "$num 1"'  'awk "{printf "%02d", $1 + $2}"' fileout""")
 
     print("------------------------------------------")
 
