@@ -56,7 +56,6 @@ int		process1(t_args *pdata, char *env[], char *argv[]);
 int		process2(t_args *pdata, char *env[], char *argv[]);
 int		pipe_setup_1(t_args *pdata, char *env[], char *argv[]);
 int		pipe_setup_2(t_args *pdata, char *env[], char *argv[]);
-void	struct_free(char **arr);
 void	args_free(char **arr);
 void	free_pdata(t_args *pdata);
 void	wait_free(t_args *pdata);

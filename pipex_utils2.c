@@ -35,15 +35,18 @@ int	process1(t_args *pdata, char *env[], char *argv[])
 		return (0);
 	if (pdata->f_err1 != 0)
 	{
+		free_pdata(pdata);
 		return (pdata->f_err1);
 	}
 	if (pdata->err1 == 127)
 	{
 		errsub("pipex_utils2: line: 43: ",
 			argv[2], ": command not found\n");
+		free_pdata(pdata);
 		return (pdata->err1);
 	}
 	persub("pipex_utils2: line 47: ", argv[2]);
+	free_pdata(pdata);
 	return (pdata->err1);
 }
 
@@ -57,12 +60,16 @@ int	process2(t_args *pdata, char *env[], char *argv[])
 	{
 		errsub("pipex_utils2: line: 59: ",
 			argv[3], ": command not found\n");
+		free_pdata(pdata);
 		return (pdata->err2);
 	}
 	if (pdata->err2 != 0)
 	{
 		persub("pipex_utils2: line 65: ", argv[3]);
+		free_pdata(pdata);
 		return (pdata->err2);
 	}
+	// why not persub here?
+	free_pdata(pdata);
 	return (pdata->f_err2);
 }

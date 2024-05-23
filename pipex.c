@@ -39,6 +39,8 @@ void	init_data(t_args *pdata)
 	pdata->paths = NULL;
 	pdata->cmd_path1 = NULL;
 	pdata->cmd_path2 = NULL;
+	pdata->filein = -1;
+	pdata->fileout = -1;
 }
 
 int	i_access(t_args *pdata, char *argv[])

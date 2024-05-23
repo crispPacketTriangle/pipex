@@ -1,21 +1,5 @@
 #include "pipex.h"
 
-void	struct_free(char **arr)
-{
-	int	i;
-
-	if (arr)
-	{
-		i = 0;
-		while (arr[i])
-		{
-			free(arr[i]);
-			i++;
-		}
-		free(arr);
-	}
-}
-
 void	args_free(char **arr)
 {
 	int	i;
@@ -34,11 +18,11 @@ void	args_free(char **arr)
 
 void	free_pdata(t_args *pdata)
 {
-	struct_free(pdata->paths);
+	args_free(pdata->paths);
 	pdata->paths = NULL;
-	struct_free(pdata->cmd_path1);
+	args_free(pdata->cmd_path1);
 	pdata->cmd_path1 = NULL;
-	struct_free(pdata->cmd_path2);
+	args_free(pdata->cmd_path2);
 	pdata->cmd_path2 = NULL;
 	args_free(pdata->args1);
 	pdata->args1 = NULL;
