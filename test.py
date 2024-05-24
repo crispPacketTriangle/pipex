@@ -69,21 +69,24 @@ def main():
         else:
             print(RED + " KO" + RESET)
 
-        check_output(out[i * 2], out[(i * 2) + 1])  # add files from list case[i] + list[i]
-                                                    # ls -l command fileout1 and fileout2 have to be in diff directory
+        check_output(out[i * 2], out[(i * 2) + 1])
+
         print("------------------------------------------")
         time.sleep(1)
 
-    if args.valgrind == "n":
-        return 0
+    if args.valgrind == "y":
 
-    for i in range(0, len(case)):
+        for i in range(0, len(case)):
 
-        print(BLUE + f" mem leak test {i}:" + RESET)
-        print(f"(./pipex {case[i]})")
-        os.system(f'valgrind --trace-children=yes --track-origins=yes --leak-check=full --show-leak-kinds=all ./pipex {case[i]}')
-        print("------------------------------------------")
-        time.sleep(1)
+            print(BLUE + f" mem leak test {i}:" + RESET)
+            print(f"(./pipex {case[i]})")
+            os.system(
+                'valgrind --trace-children=yes --track-origins=yes '
+                '--leak-check=full --show-leak-kinds=all'
+                f' ./pipex {case[i]}'
+            )
+            print("------------------------------------------")
+            time.sleep(1)
 
     os.system('chmod 777 ../temp_files/locked')
 
@@ -96,6 +99,23 @@ def main():
     print("\ncat fileout")
     os.system("cat fileout")
     os.system('rm fileout')
+
+    print(MAGENTA + "\n comments:" + RESET)
+    print(CYAN + "The expected returned errors are not checked for correctness.\n"
+          "Nor the valgrind output. Please check these yourself to make\n"
+          "sure that the error messages match and that there are no\n"
+          "memory leaks.")
+
+    print("Be aware that system commands will cause reachable memory\n"
+          "warnings.  To add or rm flags from valgrind you can modify\n"
+          "the system call on line 83.\n" + RESET)
+    os.system('sed -n "83,87p" test.py | cut -c 13-')
+    print(CYAN + "\nTo add your own tests, in the init_tests module, add a base\n"
+          "(the real set of commands ) and case (arguments to pipex) by\n"
+          "appending both lists and add the output files to the out list.\n"
+          + RESET)
+
+    print()
 
 
 def init_tests(base, case, out):
@@ -121,7 +141,7 @@ def init_tests(base, case, out):
     base.append("< notafile sort | sdfjh > ../temp_files/fileout1")
     case.append("notafile sort sdfjh ../temp_files/fileout2")
 
-    os.system('touch ../temp_files/locked && chmod 000 temp_files/locked')
+    os.system('touch ../temp_files/locked && chmod 000 ../temp_files/locked')
 
     base.append("< locked sort | cat > ../temp_files/fileout1")
     case.append("locked sort cat ../temp_files/fileout2")
@@ -153,9 +173,10 @@ def init_tests(base, case, out):
     out.append("../temp_files/fileout1")
     out.append("../temp_files/fileout2")
 
+
 def check_output(f1, f2):
 
-    print(CYAN + " output the same" + RESET)
+    print(CYAN + " output file the same" + RESET)
     r = os.popen(f"diff {f1} {f2}")
     output = r.read()
     print(output)
