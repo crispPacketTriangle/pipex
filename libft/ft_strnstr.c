@@ -6,7 +6,7 @@
 /*   By: lworden <lworden@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/19 20:12:09 by lworden           #+#    #+#             */
-/*   Updated: 2023/12/15 16:21:43 by lworden          ###   ########.fr       */
+/*   Updated: 2024/05/24 17:38:46 by lworden          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,4 +49,3 @@ static int	match(const char *big, const char *little, size_t i, size_t len)
 	}
 	return (1);
 }
-

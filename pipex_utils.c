@@ -1,21 +1,35 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   pipex_utils.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: lworden <lworden@student.42berlin.de>      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/05/24 15:46:17 by lworden           #+#    #+#             */
+/*   Updated: 2024/05/24 17:26:56 by lworden          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "pipex.h"
 
-// error handling in parser with malloc, split, etc
 int	parse_cmds(char ***args_n, const char *args, t_args *pdata)
 {
 	int	n;
+	int	merr;
 
 	if (ft_strlen(args) > 0)
 	{
 		n = first_pass(args);
-		make_room(args_n, n);
-		awk_parser(args, args_n, pdata);
-		return (0);
+		merr = make_room(args_n, n);
+		if (merr == 1)
+			return (merr);
+		merr = awk_parser(args, args_n, pdata);
+		return (merr);
 	}
 	return (69);
 }
 
-void	get_path(t_args *pdata, char *env[])
+int	get_path(t_args *pdata, char *env[])
 {
 	int	i;
 
@@ -29,6 +43,9 @@ void	get_path(t_args *pdata, char *env[])
 		}
 		i++;
 	}
+	if (!((*pdata).paths))
+		return (1);
+	return (0);
 }
 
 int	get_cmd_path(t_args *pdata, char ***cmd_path, char ***args)
@@ -39,6 +56,8 @@ int	get_cmd_path(t_args *pdata, char ***cmd_path, char ***args)
 	while (pdata->paths[i])
 		i++;
 	*cmd_path = malloc((i + 1) * sizeof(char *));
+	if (!(*cmd_path))
+		return (1);
 	i = 0;
 	while (pdata->paths[i])
 	{
@@ -71,10 +90,4 @@ int	get_valid_path(t_args *pdata, char ***cmd_path, char **path)
 	if (access(*path, X_OK) == -1)
 		return (errno);
 	return (0);
-}
-
-void	add_valid_path(char *path, char ***arg)
-{
-	free((*arg)[0]);
-	(*arg)[0] = path;
 }

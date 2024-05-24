@@ -6,7 +6,7 @@
 /*   By: lworden <lworden@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/21 19:08:24 by lworden           #+#    #+#             */
-/*   Updated: 2023/12/15 16:07:19 by lworden          ###   ########.fr       */
+/*   Updated: 2024/05/24 17:36:36 by lworden          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,4 +109,3 @@ static char	*mem(int len)
 		return (NULL);
 	return (ptr);
 }
-

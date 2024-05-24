@@ -6,7 +6,7 @@
 /*   By: lworden <lworden@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/24 17:14:01 by lworden           #+#    #+#             */
-/*   Updated: 2023/12/15 16:17:27 by lworden          ###   ########.fr       */
+/*   Updated: 2024/05/24 17:37:57 by lworden          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,4 +21,3 @@ void	ft_putstr_fd(char *s, int fd)
 		i++;
 	write(fd, s, i);
 }
-

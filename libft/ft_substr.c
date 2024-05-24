@@ -6,7 +6,7 @@
 /*   By: lworden <lworden@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/20 17:43:41 by lworden           #+#    #+#             */
-/*   Updated: 2023/12/15 16:27:22 by lworden          ###   ########.fr       */
+/*   Updated: 2024/05/24 17:39:00 by lworden          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,4 +63,3 @@ static char	*sngl_char(const char *s, char *ptr, unsigned int st)
 	ptr[1] = '\0';
 	return (ptr);
 }
-

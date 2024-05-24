@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   pipex_utils2.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: lworden <lworden@student.42berlin.de>      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/05/24 15:46:29 by lworden           #+#    #+#             */
+/*   Updated: 2024/05/24 16:22:26 by lworden          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "pipex.h"
 
 void	setup(t_args *pdata, char *argv[], char *env[])
@@ -40,12 +52,11 @@ int	process1(t_args *pdata, char *env[], char *argv[])
 	}
 	if (pdata->err1 == 127)
 	{
-		errsub("pipex_utils2: line: 43: ",
-			argv[2], ": command not found\n");
+		errsub("pipex: 1: ", argv[2], ": command not found\n");
 		free_pdata(pdata);
 		return (pdata->err1);
 	}
-	persub("pipex_utils2: line 47: ", argv[2]);
+	persub("pipex_utils2: ", argv[2]);
 	free_pdata(pdata);
 	return (pdata->err1);
 }
@@ -58,18 +69,16 @@ int	process2(t_args *pdata, char *env[], char *argv[])
 		return (0);
 	if (pdata->err2 == 127)
 	{
-		errsub("pipex_utils2: line: 59: ",
-			argv[3], ": command not found\n");
+		errsub("pipex: 1: ", argv[3], ": command not found\n");
 		free_pdata(pdata);
 		return (pdata->err2);
 	}
 	if (pdata->err2 != 0)
 	{
-		persub("pipex_utils2: line 65: ", argv[3]);
+		persub("pipex: 1: ", argv[3]);
 		free_pdata(pdata);
 		return (pdata->err2);
 	}
-	// why not persub here?
 	free_pdata(pdata);
 	return (pdata->f_err2);
 }

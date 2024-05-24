@@ -6,7 +6,7 @@
 /*   By: lworden <lworden@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/09 20:34:36 by lworden           #+#    #+#             */
-/*   Updated: 2023/12/18 16:15:21 by lworden          ###   ########.fr       */
+/*   Updated: 2024/05/24 17:38:04 by lworden          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,4 +94,3 @@ static void	free_all(char **arr)
 	}
 	free(arr);
 }
-

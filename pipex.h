@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   pipex.h                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: lworden <lworden@student.42berlin.de>      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/05/24 15:53:27 by lworden           #+#    #+#             */
+/*   Updated: 2024/05/24 17:28:09 by lworden          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef PIPEX_H
 # define PIPEX_H
 
@@ -39,19 +51,15 @@ typedef struct t_args
 int		args_false(int argc, char *argv[]);
 void	setup(t_args *pdata, char *argv[], char *env[]);
 void	init_data(t_args *pdata);
-int		io_access(t_args *pdata, char *argv[]);
 int		i_access(t_args *pdata, char *argv[]);
 int		o_access(t_args *pdata, char *argv[]);
-void	get_path(t_args *pdata, char *env[]);
+int		get_path(t_args *pdata, char *env[]);
 char	**ft_split_p(const char *str, char c);
 int		args1_init(t_args *pdata, char *argv[], char *env[]);
 int		args2_init(t_args *pdata, char *argv[], char *env[]);
 int		parse_cmds(char ***args_n, const char *args, t_args *pdata);
-void	parser(char ***args_n, const char *args);
-int		isin_str(const char *args);
 int		get_cmd_path(t_args *pdata, char ***cmd_path, char ***args);
 int		get_valid_path(t_args *pdata, char ***cmd_path, char **path);
-void	add_valid_path(char *path, char ***arg);
 int		process1(t_args *pdata, char *env[], char *argv[]);
 int		process2(t_args *pdata, char *env[], char *argv[]);
 int		pipe_setup_1(t_args *pdata, char *env[], char *argv[]);
@@ -59,13 +67,12 @@ int		pipe_setup_2(t_args *pdata, char *env[], char *argv[]);
 void	args_free(char **arr);
 void	free_pdata(t_args *pdata);
 void	wait_free(t_args *pdata);
-void	print_debug(t_args *pdata);
 void	errsub(const char *ln, const char *s, const char *err);
 void	persub(const char *ln, const char *s);
-void	awk_parser(const char *args, char ***prs_args, t_args *pdata);
+int		awk_parser(const char *args, char ***prs_args, t_args *pdata);
 int		first_pass(const char *args);
-void	make_room(char ***pdata, int n);
-void	make_sub(const char *args, char ***prs_args, t_args *pdata);
+int		make_room(char ***pdata, int n);
+int		make_sub(const char *args, char ***prs_args, t_args *pdata);
 void	set_isn(t_args *pdata);
 int		str_n(const char *str, char c);
 int		str_gen(const char *str, char c, char **arr, int n);

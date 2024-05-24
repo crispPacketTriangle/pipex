@@ -6,7 +6,7 @@
 /*   By: lworden <lworden@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/20 13:17:03 by lworden           #+#    #+#             */
-/*   Updated: 2023/12/15 16:04:08 by lworden          ###   ########.fr       */
+/*   Updated: 2024/05/24 17:35:32 by lworden          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,4 +73,3 @@ static int	appnd_digits(const char *nptr, int i, int sign)
 	}
 	return (conv(digits, n) * sign); 
 }
-

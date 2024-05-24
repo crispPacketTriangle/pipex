@@ -6,7 +6,7 @@
 /*   By: lworden <lworden@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/20 16:49:05 by lworden           #+#    #+#             */
-/*   Updated: 2023/12/15 16:19:21 by lworden          ###   ########.fr       */
+/*   Updated: 2024/05/24 17:38:11 by lworden          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,4 +32,3 @@ char	*ft_strdup(const char *s)
 	ptr[i] = '\0';
 	return (ptr); 
 }
-

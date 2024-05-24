@@ -6,7 +6,7 @@
 /*   By: lworden <lworden@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/24 17:17:42 by lworden           #+#    #+#             */
-/*   Updated: 2023/12/15 16:12:08 by lworden          ###   ########.fr       */
+/*   Updated: 2024/05/24 17:37:49 by lworden          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,4 +22,3 @@ void	ft_putendl_fd(char *s, int fd)
 	write(fd, s, i);
 	write(fd, "\n", 1);
 }
-

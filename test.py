@@ -119,35 +119,36 @@ def main():
 
 def init_tests(base, case, out):
 
+    # TEST 0
     base.append("< file ls -l | cat > ../temp_files/fileout1")
     case.append("""file "ls -l" cat ../temp_files/fileout2""")
-
+    # TEST 1
     base.append("< file sort | cat -e > ../temp_files/fileout1")
     case.append("""file sort "cat -e" ../temp_files/fileout2""")
-
+    # TEST 2
     base.append("< file wc -w | sort > ../temp_files/fileout1")
     case.append("""file "wc -w" sort ../temp_files/fileout2""")
-
+    # TEST 3
     base.append("< notafile sort | cat > ../temp_files/newfile1")
     case.append("notafile sort cat ../temp_files/newfile2")
-
+    # TEST 4
     base.append("< file gzip | base64 > ../temp_files/compressed_file1")
     case.append("file gzip base64 ../temp_files/compressed_file2")
-
+    # TEST 5
     base.append("< file sort | uniq > ../temp_files/unique_values1")
     case.append("file sort uniq ../temp_files/unique_values2")
-
+    # TEST 6
     base.append("< notafile sort | sdfjh > ../temp_files/fileout1")
     case.append("notafile sort sdfjh ../temp_files/fileout2")
-
+    
     os.system('touch ../temp_files/locked && chmod 000 ../temp_files/locked')
-
-    base.append("< locked sort | cat > ../temp_files/fileout1")
-    case.append("locked sort cat ../temp_files/fileout2")
-
+    # TEST 7
+    base.append("< ../temp_files/locked sort | cat > ../temp_files/fileout1")
+    case.append("../temp_files/locked sort cat ../temp_files/fileout2")
+    # TEST 8
     base.append("< file sort | cat > ../temp_files/locked1")
     case.append("file sort cat ../temp_files/locked2")
-
+    # TEST 9
     base.append("""< file echo "$num 1" | awk '{printf "%02d", $1 + $2}' > ../temp_files/fileout1""")
     case.append("""file 'echo "$num 1"'  'awk "{printf "%02d", $1 + $2}"' ../temp_files/fileout2""")
 

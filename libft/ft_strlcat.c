@@ -6,7 +6,7 @@
 /*   By: lworden <lworden@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/18 00:01:07 by lworden           #+#    #+#             */
-/*   Updated: 2023/12/15 16:20:49 by lworden          ###   ########.fr       */
+/*   Updated: 2024/05/24 17:38:25 by lworden          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,4 +34,3 @@ size_t	ft_strlcat(char *dest, const char *src, size_t size)
 	dest[i] = '\0';
 	return (s_len + d_len);
 }
-

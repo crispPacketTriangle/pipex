@@ -6,7 +6,7 @@
 /*   By: lworden <lworden@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/04 21:09:52 by lworden           #+#    #+#             */
-/*   Updated: 2023/12/15 16:09:03 by lworden          ###   ########.fr       */
+/*   Updated: 2024/05/24 17:37:18 by lworden          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,4 +26,3 @@ int	ft_lstsize(t_list *lst)
 	}
 	return (count);
 }
-

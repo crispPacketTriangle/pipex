@@ -6,7 +6,7 @@
 /*   By: lworden <lworden@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/12 19:49:38 by lworden           #+#    #+#             */
-/*   Updated: 2024/01/26 19:56:42 by lworden          ###   ########.fr       */
+/*   Updated: 2024/05/24 17:37:43 by lworden          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,4 +80,3 @@ int	call(int f, va_list *ap)
 	i = g_fc_arr[f](ap);
 	return (i);
 }
-

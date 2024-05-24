@@ -6,7 +6,7 @@
 /*   By: lworden <lworden@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/24 17:20:55 by lworden           #+#    #+#             */
-/*   Updated: 2023/12/15 16:16:27 by lworden          ###   ########.fr       */
+/*   Updated: 2024/05/24 17:37:54 by lworden          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,4 +64,3 @@ static void	prnt(char *arr, int i, int fd)
 		i--;
 	}
 }
-

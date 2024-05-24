@@ -1,6 +1,16 @@
-#include "pipex.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   pipex.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: lworden <lworden@student.42berlin.de>      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/05/24 15:45:52 by lworden           #+#    #+#             */
+/*   Updated: 2024/05/24 16:57:44 by lworden          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
-// adjust line numbers once header added
+#include "pipex.h"
 
 int	main(int argc, char *argv[], char *env[])
 {
@@ -47,12 +57,12 @@ int	i_access(t_args *pdata, char *argv[])
 {
 	if (access(argv[1], F_OK) == -1)
 	{
-		persub("pipex: line 46: ", argv[1]);
+		persub("pipex: 1: ", argv[1]);
 		return (1);
 	}
 	if (access(argv[1], R_OK) == -1)
 	{
-		persub("pipex: line 51: ", argv[1]);
+		persub("pipex: 1: ", argv[1]);
 		return (1);
 	}
 	pdata->filein = open(argv[1], O_RDONLY);
@@ -71,7 +81,7 @@ int	o_access(t_args *pdata, char *argv[])
 	pdata->fileout = open(argv[4], O_WRONLY | O_CREAT | O_TRUNC, perm);
 	if (pdata->fileout == -1)
 	{
-		persub("pipex: line 70: ", argv[4]);
+		persub("pipex: 1: ", argv[4]);
 		return (1);
 	}
 	return (0);

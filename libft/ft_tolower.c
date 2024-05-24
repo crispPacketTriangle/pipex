@@ -6,7 +6,7 @@
 /*   By: lworden <lworden@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/18 15:12:15 by lworden           #+#    #+#             */
-/*   Updated: 2023/12/16 17:22:13 by lworden          ###   ########.fr       */
+/*   Updated: 2024/05/24 17:39:04 by lworden          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,4 +18,3 @@ int	ft_tolower(int c)
 		return (c + 32);
 	return (c);
 }
-
