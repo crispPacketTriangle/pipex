@@ -101,19 +101,18 @@ def main():
     os.system('rm fileout')
 
     print(MAGENTA + "\n comments:" + RESET)
-    print(CYAN + "The expected returned errors are not checked for correctness.\n"
+    print("The expected returned errors are not checked for correctness.\n"
           "Nor the valgrind output. Please check these yourself to make\n"
           "sure that the error messages match and that there are no\n"
           "memory leaks.")
 
     print("Be aware that system commands will cause reachable memory\n"
           "warnings.  To add or rm flags from valgrind you can modify\n"
-          "the system call on line 83.\n" + RESET)
+          "the system call on line 83.\n")
     os.system('sed -n "83,87p" test.py | cut -c 13-')
-    print(CYAN + "\nTo add your own tests, in the init_tests module, add a base\n"
-          "(the real set of commands ) and case (arguments to pipex) by\n"
-          "appending both lists and add the output files to the out list.\n"
-          + RESET)
+    print("\nTo add your own tests, in the init_tests module, add a base\n"
+          "(the real set of commands) and case (arguments to pipex) by\n"
+          "appending both lists and add the output files to the out list.\n")
 
     print()
 
